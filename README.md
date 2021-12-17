@@ -11,7 +11,7 @@ You can find the labeled data as a pickle file in the `data` directory. You can 
 
 ## Project Setup
 
-Start by opening the notebook in Google Colab. Save a copy in Drive and upload the dataset to Drive, under `COMP0029/labeled_data.p`. Finally, run the copy of the notebook.
+Start by opening the notebook in Google Colab. Save a copy of the notebook in Drive and upload the dataset to Drive, under `COMP0029/labeled_data.p`. Finally, run the copy of the notebook.
 
 ~~~
 @inproceedings{hateoffensive,
