@@ -1,7 +1,7 @@
 # COMP0029 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1CWcsShO6sW7f_bm6zT_A50NiTEcjuDcl?usp=sharing)
 
-This Repository contains required resources to reproduce the results for my COMP0029 individual project.
+This Repository contains required resources to reproduce the results for my COMP0029 individual project, "On the Federated Detection of Hate Speech".
 
 
 ***WARNING: The data and notebooks all contain content that is racist, sexist, homophobic, and offensive in many other ways.***
