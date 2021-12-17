@@ -9,6 +9,8 @@ This Repository contains required resources to reproduce the results for my COMP
 
 You can find the labeled data as a pickle file in the `data` directory. You can also find a notebook in the `src` directory containing Python 3 code to replicate my analyses. 
 
+Start by opening the notebook in Google Colab, before saving a copy in Drive and uploading the dataset to Drive under `COMP0029/labeled_data.p` and finally running the copy of the notebook.
+
 ~~~
 @inproceedings{hateoffensive,
   title = {Automated Hate Speech Detection and the Problem of Offensive Language},
