@@ -2,13 +2,13 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/FractalGiraffe/COMP0029/blob/main/LICENSE)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1CWcsShO6sW7f_bm6zT_A50NiTEcjuDcl?usp=sharing)
 
-This Repository contains required resources to reproduce the results for my COMP0029 individual project, "On the Federated Detection of Hate Speech".
+This Repository contains the required resources to reproduce the results published in the paper "On the Federated Detection of Hate Speech".
 
 
-***WARNING: The data and notebooks all contain content that is racist, sexist, homophobic, and offensive in many other ways.***
+***WARNING: The data and notebook contain content that is racist, sexist, homophobic, and offensive in many other ways.***
 
 
-You can find the labeled data as a pickle file in the `data` directory. You can also find a notebook in the `src` directory containing Python 3 code to replicate my analyses. 
+You can find the labeled data as a pickle file in the `data` directory. A notebook can be found in the `src` directory containing Python 3 code to replicate the analyses. 
 
 ## Project Setup
 
