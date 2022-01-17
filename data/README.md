@@ -15,3 +15,5 @@ The data is stored as a pickled pandas dataframe. The dataset contains 5 columns
 - 0 : hate speech
 - 1 : offensive  language
 - 2 : neither
+
+`tweet` = raw tweet text
