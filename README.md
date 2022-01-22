@@ -5,14 +5,12 @@
 This Repository contains the required resources to reproduce the results published in the paper "On the Federated Detection of Hate Speech".
 
 
-***WARNING: The data and notebook contain content that is racist, sexist, homophobic, and offensive in many other ways.***
+***WARNING: This repository contains content that is racist, sexist, homophobic, and offensive in many other ways.***
 
-
-You can find the labeled data as a pickle file in the `data` directory. A notebook can be found in the `src` directory containing Python 3 code to replicate the analyses. 
 
 ## Project Setup
 
-Start by opening the notebook in Google Colab. Save a copy of the notebook in Drive and upload the dataset to Drive, under `COMP0029/labeled_data.p`. Finally, run the copy of the notebook.
+Click the 'Open in Colab' badge to open the Google Colab notebook. From within Colab, use the File menu to save the modified notebook to Google Drive. Choose **File → Save a copy in Drive** and follow the resulting prompts. Upload the dataset, `labeled_data.p`, to Drive.
 
 ~~~
 @inproceedings{hateoffensive,
