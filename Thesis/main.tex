@@ -11,6 +11,7 @@
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{amssymb}
+\usepackage{subcaption}
 \urlstyle{rm} % DO NOT CHANGE THIS
 \def\UrlFont{\rm}  % DO NOT CHANGE THIS
 \usepackage{graphicx}  % DO NOT CHANGE THIS
@@ -361,37 +362,126 @@ Advances and open problems in federated learning. arXiv preprint
 arXiv:1912.04977, 2019.
 \clearpage
 \section{Appendix}
+
 \begin{figure}[hbt!]
+
+\begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{iid_distribution_of_labels_7}}
 \caption{}
+\end{subfigure}%
+
+\begin{subfigure}{\columnwidth}
+{\includegraphics[width=\columnwidth]{iid_test_set_distribution_of_labels_7}}
+\caption{}
+\end{subfigure}
+
+\caption{}
 \end{figure}
+
 \begin{figure}[hbt!]
 {\includegraphics[width=\columnwidth]{iid_seed_7performance_of_models_on_client_data_f1score}}
-\caption{Caption}
+\caption{}
 \end{figure}
+
+
 \begin{figure}[hbt!]
+
+\begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{iid-quantity-skew_distribution_of_labels_5}}
-\caption{Caption}
+\caption{}
+\end{subfigure}
+
+\begin{subfigure}{\columnwidth}
+{\includegraphics[width=\columnwidth]{iid-quantity-skew_test_set_distribution_of_labels_5}}
+\caption{}
+\end{subfigure}
+
+\caption{}
 \end{figure}
+
 \begin{figure}[hbt!]
 {\includegraphics[width=\columnwidth]{iid-quantity-skew_seed_5performance_of_models_on_client_data_f1score}}
-\caption{Caption}
+\caption{}
 \end{figure}
+
+
 \begin{figure}[hbt!]
+
+\begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-2_distribution_of_labels_2}}
-\caption{Caption}
+\caption{}
+\end{subfigure}
+
+\begin{subfigure}{\columnwidth}
+{\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-2_test_set_distribution_of_labels_2}}
+\caption{}
+\end{subfigure}
+
+\caption{}
 \end{figure}
+
 \begin{figure}[hbt!]
 {\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-2_seed_2performance_of_local_models_f1score}}
 \caption{Caption}
 \end{figure}
+
+
 \begin{figure}[hbt!]
+
+\begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-1_distribution_of_labels_5}}
 \caption{Caption}
+\end{subfigure}
+
+\begin{subfigure}{\columnwidth}
+{\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-1_test_set_distribution_of_labels_5}}
+\caption{Caption}
+\end{subfigure}
+
+\caption{}
 \end{figure}
+
 \begin{figure}[hbt!]
 {\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-1_seed_5performance_of_models_on_client_data_f1score}}
 \caption{Caption}
 \end{figure}
+
+
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{Avg_precision_of_local_models_against_that_of_global_model}}
+\caption{Caption}
+\end{figure}
+
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{Avg_dispersion_of_precision_of_local_models_against_that_of_global_model}}
+\caption{Caption}
+\end{figure}
+
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{Avg_recall_of_local_models_against_that_of_global_model}}
+\caption{Caption}
+\end{figure}
+
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{Avg_dispersion_of_recall_of_local_models_against_that_of_global_model}}
+\caption{Caption}
+\end{figure}
+
+\begin{figure*}[t]
+\resizebox{\textwidth}{!}{
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Distribution}     & \multicolumn{2}{c}{Std of Precision Across Clients (95\% CI)}      & \multicolumn{2}{c}{Std of Recall Across Clients (95\% CI)}         \\ \midrule
+                                           & \textbf{Global} & \textbf{Local} & \textbf{Global} & 
+                                           \textbf{Local} \\ \midrule
+IID                                        & 0.034 (0.019-0.050)              & 0.033 (0.022-0.048)             & 0.048 (0.027-0.069)              & 0.048 (0.030-0.067)             \\ \midrule
+IID Quantity Skew                          & 0.033 (0.016-0.048)              & 0.034 (0.018-0.051)             & 0.047 (0.027-0.073)              & 0.051 (0.030-0.077)             \\ \midrule
+Non-IID Distribution Based Label Imbalance & 0.093 (0.066-0.125)              & 0.043 (0.026-0.061)             & 0.060 (0.030-0.135)              & 0.062 (0.032-0.093)             \\ \midrule
+Non-IID Quantity Based Label Imbalance 2   & 0.080 (0.040-0.136)              & 0.122 (0.067-0.180)            & 0.108 (0.077-0.138)              & 0.053 (0.025-0.087)             \\ \midrule
+Non-IID Quantity Based Label Imbalance 1   & 0.078 (0.058-0.083)              & 0.085 (0.024-0.186)             & 0.190 (0.155-0.225)              & 0.030 (0.014-0.053)             \\ \bottomrule
+\end{tabular}
+}
+\caption{Caption}
+\end{figure*}
 
 \end{document}
