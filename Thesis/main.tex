@@ -184,7 +184,7 @@ We design a single-machine simulation of a Federated Learning system to detect H
 Our simulation is run in a controlled environment that is suitable for experiments. There is a fixed set of 10 clients, each with a fixed local dataset. The local datasets are formed by partitioning our dataset across the clients. As previously mentioned, for cross-device, supervised Federated Learning tasks, labels should be able to be inferred naturally from user interaction, such as in predictive text (). In hate speech detection, labels can’t be inferred naturally from user interaction. Therefore, supervised approaches to hate speech detection can be federated cross-silo but not cross-device. The Massively Distributed property and the Limited Communication property don't apply to cross-silo Federated Learning, thus they are outside of our scope. In this vein, all clients participate in each round of Federated Learning. We assume a synchronous update scheme that proceeds in rounds of communication. Each round of Federated Learning consists of a training round followed by an evaluation round. There are two main approaches to evaluate models in a Flower federated learning system: centralized evaluation and federated evaluation. In centralized evaluation, the aggregated model is validated on the server-side, and the test set is typically sampled from the original dataset's probability distribution. In federated evaluation, the aggregated model is validated on the client-side, and the test set on each client is sampled from the same probability distribution as the client's training set (Adap GmbH, 2022). We use a federated evaluation approach. The global model is initialized with zeros. At the beginning of each training round, the server sends the current global model parameters to each client. Each client then trains its local model on its local training data, and sends the updated model parameters to the server. The server then aggregates these updates through Federated Averaging and applies them to the global model. At the beginning of each evaluation round, the server sends the current global model parameters to each client. Each client then evaluates the model's validity on its test data, before the whole cycle repeats for 50 rounds.
 
 \begin{figure}[h]
-{\includegraphics[width=\columnwidth]{High Level Architecture(1)}}
+{\includegraphics[width=\columnwidth]{High Level Architecture}}
 \caption{Caption}
 \end{figure}
 
@@ -218,7 +218,7 @@ During the Federated Learning, we evaluate the convergence behaviour of the glob
 \begin{tabular}{@{}lllll@{}}
 \toprule
 \textbf{Distribution}     & \multicolumn{2}{c}{Precision (95\% CI)}                           & \multicolumn{2}{c}{Recall (95\% CI)}                              \\ \midrule
-                                           & \textbf{Aggr.} & \textbf{Local} & \textbf{Aggr.} & \textbf{Local} \\ \midrule
+                                           & \textbf{Global} & \textbf{Local} & \textbf{Global} & \textbf{Local} \\ \midrule
 IID                                        & 0.615 (0.596-0.630)             & 0.579 (0.560-0.597)             & 0.741 (0.701-0.772)             & 0.674 (0.640-0.711)             \\ \midrule
 IID Quantity Skew                          & 0.617 (0.598-0.634)             & 0.579 (0.559-0.605)             & 0.742 (0.711-0.771)             & 0.671 (0.643-0.707)             \\ \midrule
 Non-IID Distribution Based Label Imbalance & 0.586 (0.545-0.620)             & 0.598 (0.574-0.632)             & 0.722 (0.628-0.770)             & 0.672 (0.635-0.708)             \\ \midrule
@@ -236,6 +236,11 @@ Non-IID Quantity Based Label Imbalance 1   & 0.410 (0.358-0.467)             & 0
 
 \begin{figure}[h]
 {\includegraphics[width=\columnwidth]{Avg_f1_score_of_local_models_against_that_of_global_model}}
+\caption{Caption}
+\end{figure}
+
+\begin{figure}[h]
+{\includegraphics[width=\columnwidth]{Avg_dispersion_of_f1_score_of_local_models_against_that_of_global_model}}
 \caption{Caption}
 \end{figure}
 
@@ -275,7 +280,7 @@ A)  Performance of the training process may vary significantly according to the 
 Naive implementations of FedAvg (specifically federated LR, sometimes called Homogeneous LR), algo 'array broadcasts' n dimensional parameters (n is number of labels in the client's sample) received from certain clients to x dimensions, across the array of the client with all labels in the population. Hence suboptimal performance and doesn't work when none of the client samples contain all of the labels in the population.
 
 \begin{figure}[h]
-{\includegraphics[width=\columnwidth]{noniid-distribution-based-label-imbalance_2_F1-score across clients}}
+{\includegraphics[width=\columnwidth]{noniid-distribution-based-label-imbalance_seed_2performance_of_models_on_client_data_f1score}}
 \caption{Caption}
 \end{figure}
 
@@ -354,8 +359,39 @@ P. Kairouz, H. B. McMahan, B. Avent, A. Bellet, M. Bennis, A. N.
 Bhagoji, K. Bonawitz, Z. Charles, G. Cormode, R. Cummings, et al.
 Advances and open problems in federated learning. arXiv preprint
 arXiv:1912.04977, 2019.
-
+\clearpage
 \section{Appendix}
-
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{iid_distribution_of_labels_7}}
+\caption{}
+\end{figure}
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{iid_seed_7performance_of_models_on_client_data_f1score}}
+\caption{Caption}
+\end{figure}
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{iid-quantity-skew_distribution_of_labels_5}}
+\caption{Caption}
+\end{figure}
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{iid-quantity-skew_seed_5performance_of_models_on_client_data_f1score}}
+\caption{Caption}
+\end{figure}
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-2_distribution_of_labels_2}}
+\caption{Caption}
+\end{figure}
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-2_seed_2performance_of_local_models_f1score}}
+\caption{Caption}
+\end{figure}
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-1_distribution_of_labels_5}}
+\caption{Caption}
+\end{figure}
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-1_seed_5performance_of_models_on_client_data_f1score}}
+\caption{Caption}
+\end{figure}
 
 \end{document}
