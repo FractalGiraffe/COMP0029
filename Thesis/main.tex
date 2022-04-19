@@ -96,7 +96,8 @@
 \maketitle
 
 \begin{abstract}
-\textcolor{blue}{\textbf{EDC: This is a comment}}
+\textcolor{red}{References need inserting everywhere}
+
 AAAI creates proceedings, working notes, and technical reports directly from electronic source furnished by the authors. To ensure that all papers in the publication have a uniform appearance, authors must adhere to the following instructions. 
 \end{abstract}
 
@@ -177,7 +178,7 @@ We use the data set made available by Davidson et al.. The data set consists of 
 
 \begin{figure}[h]
 {\includegraphics[width=\columnwidth]{Frequency_of_class_labels_in_population}}
-\caption{Caption}
+\caption{Imbalanced nature of the classification problem}
 \end{figure}
 
 \subsection{Design of Federated Learning System}
@@ -188,7 +189,7 @@ Our simulation is run in a controlled environment that is suitable for experimen
 
 \begin{figure}[h]
 {\includegraphics[width=\columnwidth]{High Level Architecture}}
-\caption{Caption}
+\caption{Macro-architecture of the system}
 \end{figure}
 
 \subsection{Experimental Design}
@@ -214,13 +215,24 @@ During the Federated Learning, we evaluate the convergence behaviour of the glob
 \bigskip
 \section{Results}
 
-The Davidson's classifier is a composite classifier that uses 1) Logistic Regression with L1 regularization as a Feature Transformer, to reduce the dimensionality of the data, and 2) Logistic Regression with L2 regularization as a classifier. We use the cross entropy loss function. Recall that any iterative optimization method can be applied to the federated optimization problem. Our system uses one of the most widely used quasi-Newton methods, the Limited-memory Broyden–Fletcher–Goldfarb–Shanno (L-BFGS) algorithm.
+\textcolor{red}{This para needs to be moved somewhere}
+
+The Davidson's classifier is a composite estimator that uses 1) Logistic Regression with L1 regularization as a Feature Transformer, to reduce the dimensionality of the data, and 2) Logistic Regression with L2 regularization as a classifier. Recall that any iterative optimization method can be applied to the federated optimization problem. However, the solver that incorporates the given algorithm must support warm-start (). There are many machine learning scenarios where . Therefore, our system makes use of the lbfgs solver, which incorporates one of the most widely used quasi-Newton methods, the Limited-memory Broyden–Fletcher–Goldfarb–Shanno (L-BFGS) algorithm, together with the cross-entropy loss function for multi-class classification problems.
+
+\subsection{Somewhere about data sharing strategy}
+Naive implementations of federated averaging break on quantity-based label imbalanced distributions...we use data sharing strategy to bootstrap, test split does not contain shared data as figures show.
 
 \subsection{Convergence of Approach in the Non-IID Setting}
 
-Figure 3 shows the accuracy of the $FedAvg$ approach of our system under different unbalanced and Non-IID data distribution cases. The results for the IID setting are presented as a bench mark. The accuracy does not start at the origin because, as previously mentioned, each evaluation round proceeds a training round in federated evaluation. Therefore, we only evaluate the global model after the first global batch. We constrain the number of local epochs, by dividing the maximum number of iterations that non-federated L-BFGS takes to converge on the full dataset by the number of federated learning rounds. This allows the convergence behaviour of our approach to be observed. The accuracy after the fist training round is noticeably high. If the objective function is non-convex, L-BFGS is not guaranteed to converge. However, if it converges, Newton's Method is much faster than optimization methods such as Gradient Descent. The Cross Entropy loss function is convex. Therefore L-BFGS converges in fewer iterations. From Figure 3 we can observe that, except for the case where each client only has samples of a single class, the $FedAvg$ approach has similar convergence behaviour in the Non-IID setting as in the IID setting. Firstly, for quantity skew, the accuracy is indistinguishable from that for the IID setting. This is down to the fact that $FedAvg$ weighs each client's update with the relative proportion of the client's local dataset. Secondly, in the case of label distribution skew, the algorithm's accuracy for distribution-based label imbalance is similar to that for the IID setting. In the case where clients have samples of two classes, the accuracy is comparable to that for the IID setting; although it varies more across federated learning rounds. On the other-hand the algorithm has the worst accuracy when each client only has samples if a single class.
+Figure 3 shows the accuracy of the $FedAvg$ approach of our system under different unbalanced and Non-IID data distribution cases. The results for the IID setting are presented as a bench mark. The accuracy does not start at the origin because, as previously mentioned, each evaluation round proceeds a training round in federated evaluation. Therefore, we only evaluate the global model after the first global batch. We constrain the number of local epochs, by dividing the maximum number of iterations that non-federated L-BFGS takes to converge on the full dataset by the number of federated learning rounds. This allows the convergence behaviour of our approach to be observed. The accuracy after the fist training round is noticeably high. If the objective function is non-convex, L-BFGS is not guaranteed to converge. However, if it converges, Newton's Method is much faster than optimization methods such as Gradient Descent. The Cross Entropy loss function is convex. Therefore L-BFGS converges in few iterations. From Figure 3 we can observe that, except for the case where each client only has samples of a single class, the $FedAvg$ approach has similar convergence behaviour in the Non-IID setting as in the IID setting. Firstly, for quantity skew, the accuracy is indistinguishable from that for the IID setting. This is down to the fact that $FedAvg$ weighs each client's update with the relative proportion of the client's local dataset. Secondly, in the case of label distribution skew, the algorithm's accuracy for distribution-based label imbalance is similar to that for the IID setting. In the case where clients have samples of two classes, the accuracy is comparable to that for the IID setting; although it varies more across federated learning rounds. On the other-hand the algorithm has the worst accuracy when each client only has samples if a single class.
 
-\subsection{New Heading} 
+\subsection{Performance Among Different Non-IID Settings}
+
+We exoect that the performance of our approach will decrease as the Non-IID setting becomes more extreme. We empirically observe this in Figure 5. 
+
+Each client implements a macro-average approach to compute the precision and recall. We then take the average across all clients for a particular sample of a data distribution case. The results are presented with a 95\% CI by resampling 100 times, as previously mentioned.
+
+Error bars in Figure 5 represent the 95 \% CI. Error bars in Figure 6 represent the 95 \% CI.
 
 \begin{figure*}[t]
 \resizebox{\textwidth}{!}{
@@ -235,44 +247,77 @@ Non-IID Quantity Based Label Imbalance 2   & 0.531 (0.477-0.601)             & 0
 Non-IID Quantity Based Label Imbalance 1   & 0.410 (0.358-0.467)             & 0.446 (0.383-0.533)             & 0.733 (0.659-0.800)             & 0.971 (0.956-0.985)             \\ \bottomrule
 \end{tabular}
 }
-\caption{Caption}
+\caption{Average precision and recall of global model across clients in comparison to that of local, siloed models}
 \end{figure*}
 
 \begin{figure}[h]
 {\includegraphics[width=\columnwidth]{Avg_convergence_behaviour}}
-\caption{Caption}
+\caption{The average training curve of FedAvg on different Non-IID Settings}
 \end{figure}
 
 \begin{figure}[h]
 {\includegraphics[width=\columnwidth]{Avg_f1_score_of_local_models_against_that_of_global_model}}
-\caption{Caption}
+\caption{Average overall performance of global model across clients in comparison to that of local, siloed models}
 \end{figure}
 
 \begin{figure}[h]
 {\includegraphics[width=\columnwidth]{Avg_dispersion_of_f1_score_of_local_models_against_that_of_global_model}}
-\caption{Caption}
+\caption{Average dispersion of overall performance of global model across clients in comparsion to that of local, siloed models}
+\end{figure}
+
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{Avg_precision_of_local_models_against_that_of_global_model}}
+\caption{Average precision of global model across clients in comparison to that of local, siloed models}
+\end{figure}
+
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{Avg_dispersion_of_precision_of_local_models_against_that_of_global_model}}
+\caption{Average dispersion of precision of global model across clients in comparison to that of local, siloed models}
+\end{figure}
+
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{Avg_recall_of_local_models_against_that_of_global_model}}
+\caption{Average recall of global model across clients in comparison to that of local, siloed models}
+\end{figure}
+
+\begin{figure}[hbt!]
+{\includegraphics[width=\columnwidth]{Avg_dispersion_of_recall_of_local_models_against_that_of_global_model}}
+\caption{Average dispersion of recall of global model across clients in comparison to that of local, siloed models}
 \end{figure}
 
 \bigskip
 \section{Discussion}
 
-One reason for the comparable performance of FL might be that
-the weight updates and the process of $FedAvg$ could have a similar effect in mini-batches [46-48] and ensembles. In Federated Learning, each client trains on a relatively small dataset and then
-sends the local model parameters to the server. The server then aggregates the parameters and updates the global model. Hence, each client is effectively an element of a mini-batch, and the aggregation process is analogous to ensemble processing.
+One reason for the comparable performance of FL might be that the client updates and the process of $FedAvg$ could have a similar effect as mini-batches in ensemble methods. In Federated Learning, each client trains on a relatively small dataset and then sends its updated model parameters to the server. The server then aggregates the parameters to update the global model. Hence, each client effectively performs a mini-batch, and the aggregation process is analogous to ensemble learning.
+
+Looked at inner workings of federated averaging implementations. \textcolor{red}{perhaps insert code snippet from internals of Flower framework here to show this}. Talk about array broadcasting in numerical computational libraries, Numpy, Theano, TensorFlow, and Octave. Commonly used to implement naive federated averaging, as in Flower. Tensorflows Accelerated Linear Algebra (XLA) used to accelerate TensorFlow models uses broadcasting. Broadcast n dimensional parameters across x dimensions. Used in label distribution skew, where a client has a subset of n labels of a total of x labels. Practically it keeps allows the federated learning to run but mathematically it does not make sense to broadcast a lower rank array with a 'degenerate dimension' into another space with more dimensions. See numpy broadcasting. This decreases performance of naive $FedAvg$ on distribution based label imbalance. Furthermore, this breaks in the case of quantity based label imbalance, where non of the clients have all x labels.
 
 \begin{figure}[h]
+
+\begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{noniid-distribution-based-label-imbalance_distribution_of_labels_2}}
-\caption{Caption}
+\caption{Partitioned train split}
+\end{subfigure}
+
+\begin{subfigure}{\columnwidth}
+{\includegraphics[width=\columnwidth]{noniid-distribution-based-label-imbalance_test_set_distribution_of_labels_2}}
+\caption{Partitioned test split}
+\end{subfigure}
+
+\begin{subfigure}{\columnwidth}
+{\includegraphics[width=\columnwidth]{noniid-distribution-based-label-imbalance_seed_2performance_of_models_on_client_data_f1score}}
+\caption{overall performance of global model across clients in comparison to that of local, siloed models}
+\end{subfigure}
+
+\caption{Performance in setting synthesized with the distribution-based label imbalance partitioning strategy}
 \end{figure}
+
 
 Naive implementations of $FedAvg$ (specifically federated Logistic Regression, sometimes called Homogeneous LR), 'array broadcasts' n dimensional parameters received from certain clients (n is number of labels in the client's sample) to x dimensions, across the array of the client with all labels in the population. Hence suboptimal performance and doesn't work when none of the client samples contain all of the labels in the population.
 
-\begin{figure}[h]
-{\includegraphics[width=\columnwidth]{noniid-distribution-based-label-imbalance_seed_2performance_of_models_on_client_data_f1score}}
-\caption{Caption}
-\end{figure}
+\subsection{Weight Divergence and Earth Movers Distance blah blah}
 
-\subsection{Weight Divergence}
+\textcolor{red}{Insert figures on weight divergence blah blah}
 
 Naively solving an aggregate loss function may implicitly advantage or disadvantage some of the devices, as the learned model becomese biased towards devices with larger amounts of data, or (if weighting devices equally), to commonly occurring groups of devices. 
 
@@ -287,9 +332,11 @@ efficient communication such as FedProx [16], FSVRG [17],
 CO-OP [18], LoAdaBoost FedAVG [19], and RFA [20].
 Hyperparameter selection also requires further research.
 
-Move below para elsewhere
+Move below para somewhere
 
-A recently emerging technique in the field of natural language processing (NLP) is the employment of transfer learning (Howard and Ruder, 2018; Devlin et al., 2018). The main idea of these approaches is to pretrain a neural language model on large general corpora and then fine-tune this model for a task at hand by adding an additional task-specific layer on top of the language model and training it further. A recent model called Bidirectional encoder representations from transformers (BERT) (Devlinet al., 2018) was pretrained on the concatenation of BooksCorpus (800M words) (Zhu et al., 2015) and English Wikipedia (2,500M words) before being successfully applied to a number of NLP tasks with relatively inexpensive fine-tuning for each task.
+A promising emerging technique in the field of natural language processing (NLP) is the employment of transfer learning (Howard and Ruder, 2018; Devlin et al., 2018). Talk on federated transfer learning. The main idea of these approaches is to pretrain a neural language model on large general corpora and then fine-tune this model for a task at hand by adding an additional task-specific layer on top of the language model. A recent model called Bidirectional encoder representations from transformers (BERT) (Devlinet al., 2018) was pretrained on the concatenation of BooksCorpus (Zhu et al., 2015) and English Wikipedia before being successfully applied to a number of NLP tasks with relatively inexpensive fine-tuning for each task. Our investigation into Cross-silo is a start for looking at unsupervised BERT based hate speech detection models and how we can federated pre-training/finetuning or both...
+
+\subsection{Improving Effectiveness}
 
 \bigskip
 \section{Conclusion}
@@ -302,20 +349,20 @@ A recently emerging technique in the field of natural language processing (NLP) 
 
 \begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{iid_distribution_of_labels_7}}
-\caption{}
+\caption{Partitioned train split}
 \end{subfigure}%
 
 \begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{iid_test_set_distribution_of_labels_7}}
-\caption{}
+\caption{Partitioned test split}
 \end{subfigure}
 
-\caption{}
-\end{figure}
-
-\begin{figure}[hbt!]
+\begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{iid_seed_7performance_of_models_on_client_data_f1score}}
-\caption{}
+\caption{overall performance of global model across clients in comparison to that of local, siloed models}
+\end{subfigure}
+
+\caption{Performance in synthesized IID setting}
 \end{figure}
 
 
@@ -323,20 +370,20 @@ A recently emerging technique in the field of natural language processing (NLP) 
 
 \begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{iid-quantity-skew_distribution_of_labels_5}}
-\caption{}
+\caption{Partitioned train split}
 \end{subfigure}
 
 \begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{iid-quantity-skew_test_set_distribution_of_labels_5}}
-\caption{}
+\caption{Partitioned test split}
 \end{subfigure}
 
-\caption{}
-\end{figure}
-
-\begin{figure}[hbt!]
+\begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{iid-quantity-skew_seed_5performance_of_models_on_client_data_f1score}}
-\caption{}
+\caption{overall performance of global model across clients in comparison to that of local, siloed models}
+\end{subfigure}
+
+\caption{Performance in setting synthesized with the quantity skew partitioning strategy}
 \end{figure}
 
 
@@ -344,20 +391,20 @@ A recently emerging technique in the field of natural language processing (NLP) 
 
 \begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-2_distribution_of_labels_2}}
-\caption{}
+\caption{Partitioned train split}
 \end{subfigure}
 
 \begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-2_test_set_distribution_of_labels_2}}
-\caption{}
+\caption{Partitioned test split}
+\end{subfigure}
+
+\begin{subfigure}{\columnwidth}
+{\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-2_seed_2performance_of_local_models_f1score}}
+\caption{Performance in setting synthesized with the quantity-based label imbalance 2 partitioning strategy}
 \end{subfigure}
 
 \caption{}
-\end{figure}
-
-\begin{figure}[hbt!]
-{\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-2_seed_2performance_of_local_models_f1score}}
-\caption{Caption}
 \end{figure}
 
 
@@ -365,41 +412,20 @@ A recently emerging technique in the field of natural language processing (NLP) 
 
 \begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-1_distribution_of_labels_5}}
-\caption{Caption}
+\caption{Partitioned train split}
 \end{subfigure}
 
 \begin{subfigure}{\columnwidth}
 {\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-1_test_set_distribution_of_labels_5}}
-\caption{Caption}
+\caption{Partitioned test split}
+\end{subfigure}
+
+\begin{subfigure}{\columnwidth}
+{\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-1_seed_5performance_of_models_on_client_data_f1score}}
+\caption{Performance in setting synthesized with the quantity-based label imbalance 1 partitioning strategy}
 \end{subfigure}
 
 \caption{}
-\end{figure}
-
-\begin{figure}[hbt!]
-{\includegraphics[width=\columnwidth]{noniid-quantity-based-label-imbalance-1_seed_5performance_of_models_on_client_data_f1score}}
-\caption{Caption}
-\end{figure}
-
-
-\begin{figure}[hbt!]
-{\includegraphics[width=\columnwidth]{Avg_precision_of_local_models_against_that_of_global_model}}
-\caption{Caption}
-\end{figure}
-
-\begin{figure}[hbt!]
-{\includegraphics[width=\columnwidth]{Avg_dispersion_of_precision_of_local_models_against_that_of_global_model}}
-\caption{Caption}
-\end{figure}
-
-\begin{figure}[hbt!]
-{\includegraphics[width=\columnwidth]{Avg_recall_of_local_models_against_that_of_global_model}}
-\caption{Caption}
-\end{figure}
-
-\begin{figure}[hbt!]
-{\includegraphics[width=\columnwidth]{Avg_dispersion_of_recall_of_local_models_against_that_of_global_model}}
-\caption{Caption}
 \end{figure}
 
 \begin{figure*}[t]
@@ -416,7 +442,7 @@ Non-IID Quantity Based Label Imbalance 2   & 0.080 (0.040-0.136)              & 
 Non-IID Quantity Based Label Imbalance 1   & 0.078 (0.058-0.083)              & 0.085 (0.024-0.186)             & 0.190 (0.155-0.225)              & 0.030 (0.014-0.053)             \\ \bottomrule
 \end{tabular}
 }
-\caption{Caption}
+\caption{Average dispersion of precision and recall of global model across clients in comparison to that of local, siloed models}
 \end{figure*}
 
 \end{document}
