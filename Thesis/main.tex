@@ -84,6 +84,8 @@
 %
 \setlength\titlebox{2.5in} % If your paper contains an overfull \vbox too high warning at the beginning of the document, use this
 % command to correct it. You may not alter the value below 2.5 in
+
+
 \title{On the Federated Detection of Hate Speech}
 \author{\Large \textbf{Valentin Gorbunov\textsuperscript{\rm 1}, Emiliano De Cristofaro\textsuperscript{\rm 1}}\\
 \textsuperscript{\rm 1}University College London\\
@@ -142,7 +144,7 @@ multiple times, where $w^k$ is the local model. The central server then aggregat
 \begin{equation}
 w_{t+1}   \leftarrow \sum_{k=1}^K \frac{n_k}{n} w_{t+1}^k
 \end{equation}
-where $w_{t+1}$ is the global model at round $t+1$. This approach is known as $Federated Averaging$.
+where $w_{t+1}$ is the global model at round $t+1$. This approach is known as $Federated Averaging$, or $FedAvg$.
 
 In contrast to distributed learning, which aims to parallelize computing power, federated learning aims to train on heterogeneous datasets. The key properties that differentiate the federated setting are: 
 \begin{itemize}
@@ -167,7 +169,7 @@ Our search found many studies on profiling hateful users, as opposed to detectin
 
 We shortlisted 2 studies from our search, that best fit our criteria, in addition to the 3 studies experimented with by Understanding Abusive Speech (). Specifically, Badjatiya et al. were the first to investigate the application of Deep Neural Networks (DNN's) to  hatespeech detection (Badjatiya et al., 2017). Their study examined Convolutional Neural Networks (CNN's), FastText and Long Short-Term Memory Networks (LSTM's). The DNN's outperformed state of the art methods at the time, on an annotated corpus of 16K english tweets. However, the study focused on the task of classifying a tweet as racist, sexist or neither, which made it difficult to ascertain the extent to which they were really detecting hate speech. Furthermore, it wasn't possible to validate the results, as the majority of tweets are no longer available from Twitter. Aluru et al. investigated the performance of 3 classifiers: CNN-GRU, Logistic Regression and BERT, on a parallel corpora of diverse languages. BERT is a pre-trained, bidirectional, unsupervised language representation  that has recently become popular, particularly in multilingual scenarios (). We focused on results on the English dataset in the monolingual scenario. CNN-GRU was beaten by all other methods in all tests. Logistic Regression and BERT were consistently competitive. However, Logistic Regression performed better in low resource settings, whereas BERT came out on top when the training size was the full training data.
 
-We note that some of the classifiers use similar modelling methods. The classifier in (Pelicon et al. 2018) and the BERT classifier in (Aluru et al. 2020) are both BERT based. Whereas, Davidson's classifier (), Ex Machina () and the Logistic Regression classifier in (Aluru et al. 2020) are all based on Logistic Regression. There is a plethora of literature on how to federate logistic regression. On the other-hand, there is not much in the way of approaches to federating BERT based classifiers (Liu and Miller 2020). Therefore, we opted to select Davidson's classifier, as it is highly cited and makes a distinction between hate speech and offensive language, which some other approaches have unfortunately conflated (Burnap and Williams 2015; Waseem and Hovy 2016).
+We note that some of the classifiers use similar modelling methods. The classifier in (Pelicon et al. 2018) and the BERT classifier in (Aluru et al. 2020) are both BERT based. Whereas, Davidson's classifier (), Ex Machina () and the Logistic Regression classifier in (Aluru et al. 2020) are all based on Logistic Regression. There is a plethora of literature on how to federate logistic regression. On the other-hand, there is not much in the way of approaches to federating BERT based classifiers (Liu and Miller 2020). Therefore, we opted to select Davidson's classifier, as it is highly cited and makes a distinction between hate speech and offensive language, which some other approaches have unfortunately conflated (Burnap and Williams 2015; Waseem and Hovy 2016). 
 
 \subsection{Dataset}
 
@@ -191,7 +193,7 @@ Our simulation is run in a controlled environment that is suitable for experimen
 
 \subsection{Experimental Design}
 
-In this section, we explain how we assess our proposed Federated Learning System, in terms of its utility. First, we run our simulation under the IID data distribution case as the baseline. We then run the system on the unbalanced and non-IID data distributions characteristic of the federated setting. (Kairouz et al. 2019) gives a taxonomy of unbalanced and non-IID distribution cases. Consider the local discrete probability distribution defined by the joint probability mass function $p^k_{XY}(x_i, y_i)$, where $(x_i, y_i)$ is a sample from our original dataset, with feature vector $x_i$ and label $y_i$. We rewrite $p^k_{XY}(x_i, y_i)$  in terms of the conditional distributions $p^k_{XY}(x_i | y_i)p^k_Y(y_i)$ and $p^k_{XY}(y_i | x_i)p^k_X(x_i)$ to allow us to formalise the 5 cases:
+In this section, we explain how we assess our proposed Federated Learning System, in terms of its utility. First, we run our simulation under the IID data distribution case as the baseline. We then run the system on the unbalanced and non-IID data distributions characteristic of the federated setting, which existing studies often refer to as the Non-IID setting, as opposed to the IID setting. (Kairouz et al. 2019) gives a taxonomy of unbalanced and non-IID distribution cases. Consider the local discrete probability distribution defined by the joint probability mass function $p^k_{XY}(x_i, y_i)$, where $(x_i, y_i)$ is a sample from our original dataset, with feature vector $x_i$ and label $y_i$. We rewrite $p^k_{XY}(x_i, y_i)$  in terms of the conditional distributions $p^k_{XY}(x_i | y_i)p^k_Y(y_i)$ and $p^k_{XY}(y_i | x_i)p^k_X(x_i)$ to allow us to formalise the 5 cases:
 \begin{enumerate}
 \item Label Distribution Skew \\ ($\forall{k_1, k_2 \in K}. k_1 \neq k_2 \rightarrow p^{k_1}_Y(y_i) \neq p^{k_2}_Y(y_i)$)
 \item Feature Distribution Skew \\ ($\forall{k_1, k_2 \in K}. k_1 \neq k_2 \rightarrow p^{k_1}_X(x_i) \neq p^{k_2}_X(x_i)$)
@@ -203,16 +205,22 @@ Here, 2. can be simulated by adding varying levels of noise to partitions. In co
 
 \begin{description}
 \item[Quantity Skew] We use a Dirichlet distribution to allocate varying amounts of data to each client. We sample $x \sim Dir_K (\beta)$, and allocate a $x_k$ proportion of total data samples to ${\mathcal{P}}_k$ . We fix the distribution parameter, $\beta=10$, to control the degree of imbalance. The smaller $\beta$ is, the more imbalanced the distribution.
-\item[Distribution-based label imbalance] Each client is allocated a proportion of the data samples of each label according to a Dirichlet distribution. We sample $p_Y \sim Dir_K(\beta)$ and allocate a $p_{Y,k}$ proportion of the samples labelled $Y$ to client $k$. This partitioning strategy has been used to simulate real world data distributions in recent studies.
-\item[Quantity-based label imbalance] Each client owns data samples of a fixed subset of total labels. Such a setting is also used in other studies. We use a general partitioning strategy to set the number of labels that each client has. In the context of our study, this is either 1 or 2. The data samples of each label are split evenly across the clients that have the given label.
+\item[Label Distribution Skew: Distribution-based imbalance] Each client is allocated a proportion of the data samples of each label according to a Dirichlet distribution. We sample $p_Y \sim Dir_K(\beta)$ and allocate a $p_{Y,k}$ proportion of the samples labelled $Y$ to client $k$. This partitioning strategy has been used to simulate real world data distributions in recent studies.
+\item[Label Distribution Skew: Quantity-based imbalance] Each client owns data samples of a fixed subset of total labels. Such a setting is also used in other studies. We use a general partitioning strategy to set the number of labels that each client has. In the context of our study, this is either 1 or 2. The data samples of each label are split evenly across the clients that have the given label.
 \end{description}
 
 
-During the Federated Learning, we evaluate the convergence behaviour of the global model. In addition, we evaluate the global model's classification metrics, in terms of macro-average precision, recall and f1-score, for comparison against those of local models if the clients were not to participate in our system and remained siloed. There is a class-imbalance in the dataset; the hate speech class and neither class are most important to get right, and they are under-represented. Offensive language class is over-represented. Therefore, macro average is preferable over weighted average, which is misleading in this case (). F1-score is used rather than AUROC because AUROC averages over all possible discrimination thresholds, which is misleading in the case of class-imbalanced data (). In contrast, F-1 score maintains a balance between Precision and Recall (). We synthesize 10 samples using each data partitioning strategy. Additionally, we use 10-fold Cross-Validation to randomize the train/test split. Thus, we perform 100 repeats of the simulation per data partitioning strategy and calculate the 95\% Confidence Intervals.
+During the Federated Learning, we evaluate the convergence behaviour of the global model. In addition, we evaluate the global model's classification metrics, in terms of macro-average precision, recall and f1-score, for comparison against those of local models if the clients were not to participate in our system and remained siloed. There is a class-imbalance in the dataset; the hate speech class and neither class are most important to get right, and they are under-represented. Offensive language class is over-represented. Therefore, macro average is preferable over weighted average, which is misleading in this case (). F1-score is used rather than AUROC because AUROC averages over all possible discrimination thresholds, which is misleading in the case of class-imbalanced data (). In contrast, F1-score maintains a balance between Precision and Recall (). We synthesize 10 samples using each data partitioning strategy. Additionally, we use 10-fold Cross-Validation to randomize the train/test split. Thus, we perform 100 repeats of the simulation per data partitioning strategy and calculate the 95\% Confidence Intervals.
 \bigskip
 \section{Results}
 
+The Davidson's classifier is a composite classifier that uses 1) Logistic Regression with L1 regularization as a Feature Transformer, to reduce the dimensionality of the data, and 2) Logistic Regression with L2 regularization as a classifier. We use the cross entropy loss function. Recall that any iterative optimization method can be applied to the federated optimization problem. Our system uses one of the most widely used quasi-Newton methods, the Limited-memory Broyden–Fletcher–Goldfarb–Shanno (L-BFGS) algorithm.
 
+\subsection{Convergence of Approach in the Non-IID Setting}
+
+Figure 3 shows the accuracy of the $FedAvg$ approach of our system under different unbalanced and Non-IID data distribution cases. The results for the IID setting are presented as a bench mark. The accuracy does not start at the origin because, as previously mentioned, each evaluation round proceeds a training round in federated evaluation. Therefore, we only evaluate the global model after the first global batch. We constrain the number of local epochs, by dividing the maximum number of iterations that non-federated L-BFGS takes to converge on the full dataset by the number of federated learning rounds. This allows the convergence behaviour of our approach to be observed. The accuracy after the fist training round is noticeably high. If the objective function is non-convex, L-BFGS is not guaranteed to converge. However, if it converges, Newton's Method is much faster than optimization methods such as Gradient Descent. The Cross Entropy loss function is convex. Therefore L-BFGS converges in fewer iterations. From Figure 3 we can observe that, except for the case where each client only has samples of a single class, the $FedAvg$ approach has similar convergence behaviour in the Non-IID setting as in the IID setting. Firstly, for quantity skew, the accuracy is indistinguishable from that for the IID setting. This is down to the fact that $FedAvg$ weighs each client's update with the relative proportion of the client's local dataset. Secondly, in the case of label distribution skew, the algorithm's accuracy for distribution-based label imbalance is similar to that for the IID setting. In the case where clients have samples of two classes, the accuracy is comparable to that for the IID setting; although it varies more across federated learning rounds. On the other-hand the algorithm has the worst accuracy when each client only has samples if a single class.
+
+\subsection{New Heading} 
 
 \begin{figure*}[t]
 \resizebox{\textwidth}{!}{
@@ -249,117 +257,44 @@ Non-IID Quantity Based Label Imbalance 1   & 0.410 (0.358-0.467)             & 0
 \section{Discussion}
 
 One reason for the comparable performance of FL might be that
-the weight updates and the process of FedAVG could have a similar effect in mini-batches [46-48] and ensembles [49]. In FL, each client trains on a relatively small dataset and then
-transfers the local weights to the server. The server then collects
-the local weights and updates the global weights that reflect all
-of the data through FedAVG. Subsequently, the round is
-repeated to improve the global weights. Hence, individual clients
-are an element of a mini-batch, and FedAVG is similar to
-ensemble processing
-
-Key Challenge presented by Federated Learning:
-
-1.	Statistical Heterogeneity (Non-iid data)
-
-The assumption of independent and identically distributed samples across local nodes does not hold for federated learning setups.
-
-The main categories for non-iid data can be summarized as follows:
-
-Prior probability shift: local nodes may store labels that have different statistical distributions compared to other nodes
-
-Unbalancedness: the amount of data available at the local nodes may vary significantly in size
-
-Challenges arise when training a global model from data that is not identically distributed across devices, both in terms of a) modeling the data and in terms of b) analyzing the convergence behavior of associated training procedures.
-
-A)  Performance of the training process may vary significantly according to the unbalancedness of local data samples as well as the particular probability distribution of the training examples (i.e., features and labels) stored at the local nodes
+the weight updates and the process of $FedAvg$ could have a similar effect in mini-batches [46-48] and ensembles. In Federated Learning, each client trains on a relatively small dataset and then
+sends the local model parameters to the server. The server then aggregates the parameters and updates the global model. Hence, each client is effectively an element of a mini-batch, and the aggregation process is analogous to ensemble processing.
 
 \begin{figure}[h]
 {\includegraphics[width=\columnwidth]{noniid-distribution-based-label-imbalance_distribution_of_labels_2}}
 \caption{Caption}
 \end{figure}
 
-Naive implementations of FedAvg (specifically federated LR, sometimes called Homogeneous LR), algo 'array broadcasts' n dimensional parameters (n is number of labels in the client's sample) received from certain clients to x dimensions, across the array of the client with all labels in the population. Hence suboptimal performance and doesn't work when none of the client samples contain all of the labels in the population.
+Naive implementations of $FedAvg$ (specifically federated Logistic Regression, sometimes called Homogeneous LR), 'array broadcasts' n dimensional parameters received from certain clients (n is number of labels in the client's sample) to x dimensions, across the array of the client with all labels in the population. Hence suboptimal performance and doesn't work when none of the client samples contain all of the labels in the population.
 
 \begin{figure}[h]
 {\includegraphics[width=\columnwidth]{noniid-distribution-based-label-imbalance_seed_2performance_of_models_on_client_data_f1score}}
 \caption{Caption}
 \end{figure}
 
-Naively solving an aggregate loss function may implicitly advantage or disadvantage some of the devices, as the learned model may become biased towards devices with larger amounts of data, or (if weighting devices equally), to commonly occurring groups of devices. 
+\subsection{Weight Divergence}
+
+Naively solving an aggregate loss function may implicitly advantage or disadvantage some of the devices, as the learned model becomese biased towards devices with larger amounts of data, or (if weighting devices equally), to commonly occurring groups of devices. 
 
 First wasserstein distance (EMD) between client sample distribution and population distribution can explain why some clients contribute/benefit more than others, link to weight divergence Expand on this...
 
 Recent works have proposed modified modeling approaches that aim to reduce the variance of the model performance across devices. Some heuristics simply perform a varied number of local updates based
-on local loss [52]. Other more principled approaches include Agnostic Federated Learning [80], which optimizes the centralized model for any target distribution formed by a mixture of the client distributions via a minimax optimization scheme. Another more general approach is taken by Li et al. [66], which proposes an objective called q-FFL in which devices with higher loss are given higher relative weight to encourage less variance in the final accuracy distribution.
+on local loss. Other more principled approaches include Agnostic Federated Learning, which optimizes the centralized model for any target distribution formed by a mixture of the client distributions via a minimax optimization scheme. Another more general approach is taken by Li et al., which proposes an objective called q-FFL in which devices with higher loss are given higher relative weight to encourage less variance in the final accuracy distribution.
 
-When implementing FL, we used the
-widely known FedAVG aggregation method [5], but this does
-not guarantee the best choice. To solve this problem, many
-researchers have studied aggregation methods that can work
+methods that can work
 well with abnormal distributions, robust aggregation, and
 efficient communication such as FedProx [16], FSVRG [17],
 CO-OP [18], LoAdaBoost FedAVG [19], and RFA [20].
 Hyperparameter selection also requires further research.
 
-A recently emerging technique in the field of natural language processing (NLP) is the employment of transfer learning (Howard and Ruder, 2018; Devlin et al., 2018). The main idea of these approaches is to pretrain a neural language model on large general corpora and then fine-tune this model for a task at hand by adding an additional task-specific layer on top of the language model and train it for a couple of additional epochs. A recent model called Bidirectional encoder representations from transformers (BERT) (Devlinet al., 2018) was pretrained on the concatenation of BooksCorpus (800M words) (Zhu et al., 2015) and English Wikipedia (2,500M words) and then successfully applied to a number of NLP tasks without changing its core architecture and with relatively inexpensive fine-tuning for each specific task. According to our knowledge, it has not been applied on a hate speech detection task yet, however it reached state-of-the-art results in the question answering task on the SQuAD dataset (Rajpurkar et al., 2016) as well as beat the baseline models in several language inference tasks embeddia semval
+Move below para elsewhere
+
+A recently emerging technique in the field of natural language processing (NLP) is the employment of transfer learning (Howard and Ruder, 2018; Devlin et al., 2018). The main idea of these approaches is to pretrain a neural language model on large general corpora and then fine-tune this model for a task at hand by adding an additional task-specific layer on top of the language model and training it further. A recent model called Bidirectional encoder representations from transformers (BERT) (Devlinet al., 2018) was pretrained on the concatenation of BooksCorpus (800M words) (Zhu et al., 2015) and English Wikipedia (2,500M words) before being successfully applied to a number of NLP tasks with relatively inexpensive fine-tuning for each task.
 
 \bigskip
 \section{Conclusion}
 \bigskip
-\section{References} 
-Formatted bibliographies should look like the following examples.
 
-\smallskip \noindent \textit{Book with Multiple Authors}\\
-Engelmore, R., and Morgan, A. eds. 1986. \textit{Blackboard Systems.} Reading, Mass.: Addison-Wesley.
-
-\smallskip \noindent \textit{Journal Article}\\
-Robinson, A. L. 1980a. New Ways to Make Microcircuits Smaller. \textit{Science} 208: 1019--1026.
-
-\smallskip \noindent \textit{Magazine Article}\\
-Hasling, D. W.; Clancey, W. J.; and Rennels, G. R. 1983. Strategic Explanations in Consultation. \textit{The International Journal of Man-Machine Studies} 20(1): 3--19.
-
-\smallskip \noindent \textit{Proceedings Paper Published by a Society}\\
-Clancey, W. J. 1983. Communication, Simulation, and Intelligent Agents: Implications of Personal Intelligent Machines for Medical Education. In \textit{Proceedings of the Eighth International Joint Conference on Artificial Intelligence,} 556--560. Menlo Park, Calif.: International Joint Conferences on Artificial Intelligence, Inc.
-
-\smallskip \noindent \textit{Proceedings Paper Published by a Press or Publisher}\\
-Clancey, W. J. 1984. Classification Problem Solving. In \textit{Proceedings of the Fourth National Conference on Artificial Intelligence,} 49--54. Menlo Park, Calif.: AAAI Press. 
-
-\smallskip \noindent \textit{University Technical Report}\\
-Rice, J. 1986. Poligon: A System for Parallel Problem Solving, Technical Report, KSL-86-19, Dept. of Computer Science, Stanford Univ. 
-
-\smallskip \noindent \textit{Dissertation or Thesis}\\
-Clancey, W. J. 1979. Transfer of Rule-Based Expertise through a Tutorial Dialogue. Ph.D. diss., Dept. of Computer Science, Stanford Univ., Stanford, Calif.
-
-\smallskip \noindent \textit{Forthcoming Publication}\\
-Clancey, W. J. 2021. The Engineering of Qualitative Models. Forthcoming.
-
-https://aclanthology.org/W18-4401.pdf Resources and benchmark corpora for hate speech detection: a systematic review Fabio Poletto
-
-https://epjdatascience.springeropen.com/track/pdf/10.1140/epjds/s13688-022-00324-y.pdf Analysis and classification of privacy-sensitive content in social media k,posts
-
-The trouble with European data protection law, Bert-Jaap Koops, https://academic.oup.com/idpl/article/4/4/250/2569063?
-
-Poletto et al. Resources and benchmark corpora for hate speech
-detection: a systematic review https://link.springer.com/content/pdf/10.1007/s10579-020-09502-8.pdf
-
-Badjatiya et al. Deep Learning for Hate Speech Detection in Tweets https://arxiv.org/abs/1706.00188
-
-Fortuna and Nunes 2018 A Survey on Automatic Detection of Hate Speech in Text
-
-Pelicon, A.; Martinc, M.; and Novak, P. K. 2019. Embeddia at semeval-2019 task 6: Detecting hate with neural network and transfer learning approaches. In Proceedings of the 13th International Workshop on Semantic Evaluation, 604–610.
-
-Liu and Miller Federated pretraining and fine tuning of BERT using clinical notes from multiple silos https://arxiv.org/abs/2002.08562
-
-Burnap, P., and Williams, M. L. 2015. Cyber hate speech on twitter: An application of machine classification and statistical modeling for policy and decision making. Policy \& Internet 7(2):223-242.
-
-Waseem, Z., and Hovy, D. 2016. Hateful symbols or hateful peo-
-ple? predictive features for hate speech detection on twitter. In
-SRW@HLT-NAACL, 88–93.
-
-P. Kairouz, H. B. McMahan, B. Avent, A. Bellet, M. Bennis, A. N.
-Bhagoji, K. Bonawitz, Z. Charles, G. Cormode, R. Cummings, et al.
-Advances and open problems in federated learning. arXiv preprint
-arXiv:1912.04977, 2019.
 \clearpage
 \section{Appendix}
 
