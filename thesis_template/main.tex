@@ -4,9 +4,11 @@
 \usepackage{times}
 \usepackage{hyperref}
 \usepackage{xcolor}		% make links dark blue
+\usepackage{setspace}
 \definecolor{darkblue}{rgb}{0, 0, 0.5}
 \hypersetup{colorlinks=true,citecolor=darkblue, linkcolor=darkblue, urlcolor=darkblue}
-
+\setlength{\parskip}{0pt}
+\onehalfspacing
 \begin{document}
 
 \pagenumbering{gobble}
@@ -32,6 +34,7 @@
 \chapter{Introduction}
 
 \section{Problem Outline}
+
 \section{Aims and Goals}
 \subsection{Aims}
 \subsection{Goals}
@@ -48,9 +51,87 @@
 \appendix
 \chapter{Results}
 \chapter{Project Plan}
+
+\begin{description}
+\item[Project title:] On the Federated Detection of Hate Speech
+
+\item[Supervisor’s name:] Emiliano De Cristofaro
+
+\item[Aim:] The aim of the project is to design a federated learning system to detect hate speech and investigate it in terms of its utility.
+
+\item[Objectives:] \hfill
+\begin{itemize}
+\item Review current machine learning approaches to detecting hate speech and survey federated learning software
+\item Design a federated learning system to detect hate speech
+\item Investigate the proposed system in terms of its utility
+\item Integrate findings into existing infrastructure
+\end{itemize}
+\item[Deliverables:] \hfill
+\begin{itemize}
+\item Literature review surveying current machine learning approaches to detecting hate speech and federated learning software
+\item Architectural specification of federated learning system
+\item Implementation of federated learning system and code basis for reproducing experimental results
+\item Evaluation of the federated learning system’s utility
+\item Strategy for testing and evaluating the system
+\item Documented module to integrate with existing infrastructure
+\end{itemize}
+\item[Work Plan:] \hfill
+\begin{itemize}
+\item Project start to early-November (6 weeks) Review literature, familiarize with relevant tools and formulate problem statement.
+
+\item Mid-November to early-December (2 weeks) Implement system and setup experiment environment.
+
+\item Mid-December to Mid-February (10 weeks) Conduct experiments and evaluate system.
+
+\item Mid-February to end-March (6 weeks) Work on Final Report.
+\end{itemize}
+\end{description}
+
 \chapter{Interim Report}
+\begin{description}
+\item[Project title:] On the Federated Detection of Hate Speech
 
+\item[Supervisor’s name:] Emiliano De Cristofaro
 
+\item[Progress Summary:] \hfill
+\begin{description}
+
+\item[Completed:] \hfill
+\begin{itemize}
+\item Literature review
+\item Architectural specification of federated learning system
+\item Implementation of system and code basis for reproducing experimental results 
+\end{itemize}
+\item[In Progress:] \hfill
+\begin{itemize}
+\item Evaluation of the federated learning system’s utility
+\item Strategy for testing and evaluating the system
+\end{itemize}
+\end{description}
+
+\item[Work Plan:] \hfill
+\begin{itemize}
+\item Mid-January to Mid-February (4 weeks) Evaluate federated learning system’s utility and improve strategy for testing and evaluating the system.
+
+\item Mid-February to end-March (6 weeks) Work on Final Report.
+\end{itemize}
+\item[Progress Report:] \hfill
+
+I completed a literature review on automatic hate speech detection, software tools for federated learning and the methods and challenges of federated learning.
+The following lines of inquiry developed:
+\begin{itemize}
+\item How does the key challenge in federated learning, statistical heterogeneity, affect performance?
+\item How can methods of federated learning, such as FedBN and FedOpt, address the challenges posed by statistical heterogeneity?
+\end{itemize}
+
+I set up an experiment environment, leveraging Google’s ecosystem that includes Jupyter Notebook, Google Colab and Drive to streamline my workflow.
+
+I ported the centralized Davidson pipeline to Python 3 and migrated libraries. I developed a deep understanding of their results and methodology. I broke the pipeline down into components, documented them and adapted the pipeline so it could be federated. I evaluated the centralized pipeline’s utility.
+
+I designed, implemented, and documented a single machine simulation of the federated pipeline using flower and multiprocessing. Baseline experiment shows comparable performance to the centralized pipeline.
+
+I plan to continue working on evaluating the effect of statistical heterogeneity on the performance of the federated learning system. Additionally, I plan to investigate how methods of federated learning can address the challenges posed by statistical heterogeneity.
+\end{description}
 \end{document}
 
 
