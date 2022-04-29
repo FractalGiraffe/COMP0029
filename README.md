@@ -12,6 +12,9 @@ This repository contains the required resources to reproduce the results publish
 
 Click the 'Open in Colab' badge to open the Google Colab notebook. From within Colab, use the File menu to save the modified notebook to Google Drive. Choose **File → Save a copy in Drive** and follow the resulting prompts. Upload the dataset, `labeled_data.p`, to Drive.
 
+'Results_Folders' contains both vizualisations and raw data (in json 
+format) produced by our experiments. 
+
 ~~~
 @inproceedings{hateoffensive,
   title = {Automated Hate Speech Detection and the Problem of Offensive Language},
