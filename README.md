@@ -1,4 +1,4 @@
-# COMP0029 
+# On the Federated Detection of Hate Speech 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/FractalGiraffe/COMP0029/blob/main/LICENSE)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1CWcsShO6sW7f_bm6zT_A50NiTEcjuDcl?usp=sharing)
 
